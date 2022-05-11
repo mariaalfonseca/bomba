@@ -106,7 +106,8 @@
                 });
 
                 if (allCorrect) {
-                    alert('Has ganado');
+                    $('.timer').text('¡¡¡HAS GANADO!!!');
+                    $('.btn-check-game').hide();
                     clearInterval(intervalCountdown);
                 }
             });
