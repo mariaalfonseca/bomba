@@ -1,0 +1,174 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" href="custom.css" />
+    <title>Desactiva la bomba</title>
+</head>
+<body>
+    <div class="overlay"></div>
+    <div class="container mt-5">
+        <div class="row d-flex">
+            <div class="col-md-6 offset-md-3">
+                <div class="card">
+                    <div class="card-body timer h2 text-center">
+
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 offset-md-3">
+                <div class="card">
+                    <div class="card-body card-home">
+                        <div class="d-grid gap-2">
+                            <input class="btn btn-primary btn-start-game" type="button" value="Empezar juego">
+                            <input class="btn btn-warning btn-check-game" style="display:none" type="button" value="Comprobar">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row d-flex mt-5">
+            <div class="col-md-6">
+                <div class="card card-game c-blue" style="display: none">
+                    <div class="card-body">
+                        <div class="mb-3">
+                            <input type="text" class="form-control" id="code1" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card card-game c-red"  style="display: none">
+                    <div class="card-body">
+                        <div class="mb-3">
+                            <input type="text" class="form-control" id="code2" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card card-game c-green" style="display: none">
+                    <div class="card-body">
+                        <div class="mb-3">
+                            <input type="text" class="form-control" id="code3" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card card-game c-yellow" style="display: none">
+                    <div class="card-body">
+                        <div class="mb-3">
+                            <input type="text" class="form-control" id="code4" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script
+            src="https://code.jquery.com/jquery-3.6.0.min.js"
+            integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
+            crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <script type="text/javascript">
+        const minutesGame = 1;
+        const correctCodes = [1,2,3,4];
+        var intervalCountdown;
+
+        $(document).ready(function () {
+
+
+           $('.btn-start-game').on('click', function (e) {
+               e.preventDefault();
+               startTimer();
+               $(this).hide();
+               $('.btn-check-game').show();
+               $('.card-game').show();
+           });
+
+            $('.btn-check-game').on('click', function (e) {
+                let cont = 0;
+                let allCorrect = true;
+                $('.card-game input').each(function (index) {
+                    if ($(this).val() == correctCodes[cont]) {
+                        $(this).css('background-color', 'green');
+                    } else {
+                        allCorrect = false;
+                        $(this).css('background-color', 'red');
+                    }
+                    cont++;
+                });
+
+                if (allCorrect) {
+                    alert('Has ganado');
+                    clearInterval(intervalCountdown);
+                }
+            });
+
+            $('.card-game input').on('keyup', function () {
+                $(this).css('background-color', 'white');
+            });
+
+
+            // Set the date we're counting down to
+            var countDownDate = new Date(+new Date() + 60000*minutesGame).getTime();
+
+            // Update the count down every 1 second
+            var now = new Date().getTime();
+
+            var distance = countDownDate - now;
+
+            var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            let minutesStr = '';
+            if (minutes > 0) {
+                minutesStr = minutes + 'm ';
+            }
+
+            // Display the result in the element with id="demo"
+            $('.timer').html(minutesStr + seconds + "s ");
+        });
+
+
+
+
+        function startTimer()
+        {
+            // Set the date we're counting down to
+            var countDownDate = new Date(+new Date() + 60000*minutesGame).getTime();
+
+            // Update the count down every 1 second
+            intervalCountdown = setInterval(function() {
+                var now = new Date().getTime();
+
+                var distance = countDownDate - now;
+
+                var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+                let minutesStr = '';
+                if (minutes > 0) {
+                    minutesStr = minutes + 'm ';
+                }
+
+                // Display the result in the element with id="demo"
+                $('.timer').html(minutesStr + seconds + "s ");
+
+                // If the count down is finished, write some text
+                if (distance < 0) {
+                    clearInterval(intervalCountdown);
+                    $('.timer').html("FIN DEL JUEGO");
+                    $('.btn-validate').prop('disabled', true);
+                }
+            }, 1000);
+        }
+    </script>
+</body>
+</html>

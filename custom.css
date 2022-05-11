@@ -1,0 +1,34 @@
+html,body {
+    height: 100%;
+    margin: 0;
+    overflow: hidden;
+}
+
+body {
+    background-color: black;
+}
+
+.card-game {
+    border-width: medium;
+    margin-top: 10px;
+}
+
+.c-red {
+    border-color: #b224ff;
+    background-color: #ffa9e8;
+}
+
+.c-blue {
+    border-color: #0000FF;
+    background-color: #adb4ff;
+}
+
+.c-green {
+    border-color: #ff720f;
+    background-color: #ffce9b;
+}
+
+.c-yellow {
+    border-color: #ffe300;
+    background-color: #ffed7f;
+}
